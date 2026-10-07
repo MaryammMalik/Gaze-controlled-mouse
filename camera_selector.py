@@ -7,7 +7,8 @@ import requests
 os.environ["OPENCV_LOG_LEVEL"] = "ERROR"
 
 # IP_WEBCAM_BASE = "http://192.168.1.4:8080"
-IP_WEBCAM_BASE = "http://192.168.1.6:8080"
+#IP_WEBCAM_BASE = "http://192.168.1.6:8080"
+IP_WEBCAM_BASE = "http://192.168.0.105:8080"
 PHONE_ROTATION = 1  # 90 counter-clockwise — change if still sideways
 
 
