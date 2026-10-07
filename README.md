@@ -1,4 +1,4 @@
-# 👁️ Eye-Controlled Mouse for Disabled People
+# 👁️ Gaze-Controlled Mouse for Disabled People
 
 A hands-free mouse controlled entirely by eye movements and blinks — no keyboard or mouse required. Built using a standard laptop webcam and free, open-source tools, for people with motor disabilities who cannot use conventional input devices.
 
