@@ -126,17 +126,20 @@ def get_head_center(landmarks, w, h):
     return (nose + lcheek + rcheek) / 3.0
 
 
+EYE_CORNERS = [33, 133, 362, 263]
+IRIS_GAIN   = 0   # start low; raise for more eye influence
+
 def get_iris_relative_to_head(landmarks, w, h):
     try:
-        head_center = get_head_center(landmarks, w, h)
-        left_iris   = get_iris_center_averaged(landmarks, LEFT_IRIS_POINTS,  w, h)
-        right_iris  = get_iris_center_averaged(landmarks, RIGHT_IRIS_POINTS, w, h)
-        iris_avg    = (left_iris + right_iris) / 2.0
-        relative    = iris_avg - head_center
-        return relative, iris_avg, head_center
+        nose       = get_pt(landmarks, NOSE_TIP, w, h)
+        eye_center = np.mean([get_pt(landmarks, i, w, h) for i in EYE_CORNERS], axis=0)
+        left_iris  = get_iris_center_averaged(landmarks, LEFT_IRIS_POINTS,  w, h)
+        right_iris = get_iris_center_averaged(landmarks, RIGHT_IRIS_POINTS, w, h)
+        iris_avg   = (left_iris + right_iris) / 2.0
+        signal     = nose + IRIS_GAIN * (iris_avg - eye_center)
+        return signal, iris_avg, nose
     except Exception:
         return None, None, None
-
 
 class CalibrationState:
     """
@@ -210,6 +213,8 @@ class CalibrationState:
             # Independent least-squares line fit per axis: screen = a*eye + b
             self.ax, self.bx = np.polyfit(eye[:, 0], scr[:, 0], 1)
             self.ay, self.by = np.polyfit(eye[:, 1], scr[:, 1], 1)
+            print("eye pts:", self.eye_points)
+            print(f"ax={self.ax:.2f}  ay={self.ay:.2f}")
             print("\n[CAL] Calibration complete! (linear per-axis mapping)")
         except Exception as e:
             print(f"[CAL] ERROR: {e}")
