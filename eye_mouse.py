@@ -127,7 +127,7 @@ def get_head_center(landmarks, w, h):
 
 
 EYE_CORNERS = [33, 133, 362, 263]
-IRIS_GAIN   = 0   # start low; raise for more eye influence
+IRIS_GAIN   = 1.0   # start low; raise for more eye influence
 
 def get_iris_relative_to_head(landmarks, w, h):
     try:
